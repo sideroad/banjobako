@@ -39,7 +39,7 @@ export default (App, initializeStore) =>
 
     constructor(props) {
       super(props);
-      this.store = getOrCreateStore(props.initialReduxState);
+      this.store = getOrCreateStore(initializeStore, props.initialReduxState);
     }
 
     render() {

@@ -53,8 +53,9 @@ const exec = async ({
   useQuery: boolean | undefined;
 }) => {
   dispatch(start());
+  let res;
   try {
-    const res = await client.fetch({
+    res = await client.fetch({
       url,
       method,
       values,
@@ -70,22 +71,20 @@ const exec = async ({
         ...res
       })
     );
-    return {
-      values,
-      ...res
-    };
-  } catch (res) {
+  } catch (err) {
+    res = err;
     dispatch(
       fail({
         values,
         ...res
       })
     );
-    return {
-      values,
-      ...res
-    };
   }
+
+  return {
+    values,
+    ...res
+  };
 };
 
 const getExecOptions = ({

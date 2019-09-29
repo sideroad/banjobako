@@ -52,6 +52,8 @@ const exec = async ({
   headers: object;
   cache: boolean | undefined;
   useQuery: boolean | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  logger?: (...args: any) => void;
 }) => {
   dispatch(start());
   let res;
@@ -72,8 +74,12 @@ const exec = async ({
         ...res
       })
     );
-  } catch (err) {
-    res = err;
+
+    return Promise.resolve({
+      values,
+      ...res
+    });
+  } catch (res) {
     logger(res);
     dispatch(
       fail({
@@ -81,12 +87,11 @@ const exec = async ({
         ...res
       })
     );
+    return Promise.reject({
+      values,
+      ...res
+    });
   }
-
-  return {
-    values,
-    ...res
-  };
 };
 
 const getExecOptions = ({
@@ -96,7 +101,8 @@ const getExecOptions = ({
   dispatch,
   client,
   resource,
-  action
+  action,
+  logger
 }: {
   options: Options;
   dispatch: Function;
@@ -105,6 +111,8 @@ const getExecOptions = ({
   urls: Urls;
   resource: string;
   action: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  logger?: (...args: any) => void;
 }) => ({
   dispatch,
   client,
@@ -112,6 +120,7 @@ const getExecOptions = ({
   method: urls[resource][action].method,
   cache: urls[resource][action].cache,
   mode: options.mode !== undefined ? options.mode : urls[resource][action].mode,
+  logger,
   credentials:
     options.credentials !== undefined
       ? options.credentials
@@ -148,7 +157,9 @@ export default class Fetcher {
     urls,
     dispatch,
     headers = {},
-    logger
+    logger = (...args) => {
+      console.log(...args);
+    }
   }: {
     urls: Urls;
     dispatch: Function;

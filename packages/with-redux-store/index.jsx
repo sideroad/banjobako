@@ -3,7 +3,7 @@ import React from 'react';
 const isServer = typeof window === 'undefined';
 const __NEXT_REDUX_STORE__ = '__NEXT_REDUX_STORE__';
 
-function getOrCreateStore(initializeStore: any, initialState?: any) {
+function getOrCreateStore(initializeStore, initialState) {
   // Always make a new store if server, otherwise state is shared between requests
   if (isServer) {
     return initializeStore(initialState);
@@ -16,11 +16,9 @@ function getOrCreateStore(initializeStore: any, initialState?: any) {
   return window[__NEXT_REDUX_STORE__];
 }
 
-export default (App: React, initializeStore: any) =>
+export default (App, initializeStore) =>
   class AppWithRedux extends React.Component {
-    store: any;
-    props: unknown;
-    static async getInitialProps(appContext: any) {
+    static async getInitialProps(appContext) {
       // Get or Create the store with `undefined` as initialState
       // This allows you to set a custom default initialState
       const store = getOrCreateStore(initializeStore);
@@ -39,12 +37,12 @@ export default (App: React, initializeStore: any) =>
       };
     }
 
-    constructor(props: any) {
+    constructor(props) {
       super(props);
       this.store = getOrCreateStore(props.initialReduxState);
     }
 
     render() {
-      return <App {...this.props} store={this.store} />;
+      return App({ ...this.props, store: this.store });
     }
   };

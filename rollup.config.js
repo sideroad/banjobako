@@ -1,5 +1,6 @@
 import typescript from 'rollup-plugin-typescript2';
 import reduxUnfetchPackage from './packages/redux-unfetch/package.json';
+import withReduxStorePackage from './packages/with-redux-store/package.json';
 console.log(Object.keys(reduxUnfetchPackage.dependencies));
 export default [
   {

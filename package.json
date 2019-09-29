@@ -6,7 +6,8 @@
   ],
   "scripts": {
     "test": "jest",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "publish": "yarn test && yarn build && lerna publish"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

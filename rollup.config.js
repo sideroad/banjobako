@@ -1,7 +1,4 @@
 import typescript from 'rollup-plugin-typescript2';
-import reduxUnfetchPackage from './packages/redux-unfetch/package.json';
-import withReduxStorePackage from './packages/with-redux-store/package.json';
-console.log(Object.keys(reduxUnfetchPackage.dependencies));
 export default [
   {
     input: 'packages/redux-unfetch/index.ts',
@@ -11,14 +8,21 @@ export default [
         format: 'cjs'
       }
     ],
-    external: [
-      ...Object.keys(reduxUnfetchPackage.dependencies || {}),
-      ...Object.keys(reduxUnfetchPackage.peerDependencies || {})
-    ],
+    external: [],
     plugins: [
       typescript({
         typescript: require('typescript')
       })
     ]
+  },
+  {
+    input: 'packages/with-redux-store/index.jsx',
+    output: [
+      {
+        file: 'packages/with-redux-store/dist/index.js',
+        format: 'cjs'
+      }
+    ],
+    external: ['react']
   }
 ];

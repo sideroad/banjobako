@@ -36,7 +36,8 @@ const exec = async ({
   credentials,
   headers,
   cache,
-  useQuery
+  useQuery,
+  logger
 }: {
   dispatch: Function;
   client: ApiClient;
@@ -73,7 +74,7 @@ const exec = async ({
     );
   } catch (err) {
     res = err;
-    console.error(res);
+    logger(res);
     dispatch(
       fail({
         values,
@@ -157,7 +158,7 @@ export default class Fetcher {
   }) {
     const client = new ApiClient({
       defaultHeaders: headers,
-      logger: logger
+      logger
     });
     Object.keys(urls).map(resource => {
       this[resource] = {};
@@ -178,7 +179,8 @@ export default class Fetcher {
               dispatch,
               client,
               resource,
-              action
+              action,
+              logger
             })
           );
         };

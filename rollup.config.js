@@ -1,4 +1,7 @@
 import typescript from 'rollup-plugin-typescript2';
+import resolve from 'rollup-plugin-node-resolve';
+import babel from 'rollup-plugin-babel';
+
 export default [
   {
     input: 'packages/redux-unfetch/index.ts',
@@ -23,6 +26,15 @@ export default [
         format: 'cjs'
       }
     ],
-    external: ['react']
+    external: ['react'],
+    plugins: [
+      resolve(),
+      babel({
+        exclude: 'node_modules/**'
+      }),
+      typescript({
+        typescript: require('typescript')
+      })
+    ]
   }
 ];

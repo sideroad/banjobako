@@ -43,6 +43,6 @@ export default (App, initializeStore) =>
     }
 
     render() {
-      return App({ ...this.props, store: this.store });
+      return <App { ...this.props } store={this.store} />;
     }
   };

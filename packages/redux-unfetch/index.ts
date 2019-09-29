@@ -73,6 +73,7 @@ const exec = async ({
     );
   } catch (err) {
     res = err;
+    console.error(res);
     dispatch(
       fail({
         values,

@@ -24,7 +24,6 @@ const queryHeader = (
 ) => ({
   method: 'GET',
   headers: {
-    'Content-Type': 'application/json',
     ...defaultHeaders,
     ...headers
   },

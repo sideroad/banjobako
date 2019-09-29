@@ -1,6 +1,6 @@
 {
   "name": "redux-unfetch",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "isomorphic fetching logic connect and dispatch action",
   "main": "dist/index.js",
   "author": "sideroad",

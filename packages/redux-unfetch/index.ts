@@ -70,10 +70,10 @@ const exec = async ({
         ...res
       })
     );
-    return Promise.resolve({
+    return {
       values,
       ...res
-    });
+    };
   } catch (res) {
     dispatch(
       fail({
@@ -81,10 +81,10 @@ const exec = async ({
         ...res
       })
     );
-    return Promise.reject({
+    return {
       values,
       ...res
-    });
+    };
   }
 };
 

@@ -1,6 +1,28 @@
 import snakeCase from 'snake-case';
 import ApiClient from './api-client';
 
+interface Urls {
+  [x: string]: {
+    [x: string]: {
+      url: string;
+      method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
+      cache?: boolean;
+      mode: RequestMode;
+      credentials?: RequestCredentials;
+      headers?: object;
+      defaults?: object;
+      useQuery?: boolean;
+    };
+  };
+}
+
+interface Options {
+  mode?: RequestMode;
+  credentials?: RequestCredentials;
+  headers?: object;
+  useQuery?: boolean;
+}
+
 const exec = async ({
   dispatch,
   client,
@@ -74,6 +96,14 @@ const getExecOptions = ({
   client,
   resource,
   action
+}: {
+  options: Options;
+  dispatch: Function;
+  client: ApiClient;
+  values: object;
+  urls: Urls;
+  resource: string;
+  action: string;
 }) => ({
   dispatch,
   client,
@@ -98,12 +128,12 @@ const getExecOptions = ({
     values,
     type: `${resource}/${snakeCase(action).toUpperCase()}_START`
   }),
-  success: res => ({
+  success: (res: any) => ({
     values,
     ...res,
     type: `${resource}/${snakeCase(action).toUpperCase()}_SUCCESS`
   }),
-  fail: res => ({
+  fail: (res: any) => ({
     values,
     ...res,
     type: `${resource}/${snakeCase(action).toUpperCase()}_FAIL`
@@ -119,7 +149,7 @@ export default class Fetcher {
     headers = {},
     logger
   }: {
-    urls: object;
+    urls: Urls;
     dispatch: Function;
     headers?: object;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -133,7 +163,7 @@ export default class Fetcher {
       this[resource] = {};
 
       Object.keys(urls[resource]).map(action => {
-        this[resource][action] = (_values, options = {}) => {
+        this[resource][action] = (_values: object, options: Options = {}) => {
           const values = Object.assign(
             {},
             urls[resource][action].defaults || {},

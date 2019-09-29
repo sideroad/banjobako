@@ -2,7 +2,7 @@
   "name": "redux-unfetch",
   "version": "1.0.1",
   "description": "isomorphic fetching logic connect and dispatch action",
-  "main": "index.js",
+  "main": "dist/index.js",
   "author": "sideroad",
   "license": "MIT",
   "dependencies": {

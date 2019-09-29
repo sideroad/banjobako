@@ -2,7 +2,7 @@ import qs from 'qs';
 import hash from 'object-hash';
 import fetch from 'isomorphic-unfetch';
 
-export const normalize = (_uri: string, params: object) => {
+export const normalize = (_uri: string, params: { [x: string]: string }) => {
   let uri = _uri;
   Object.keys(params).forEach(key => {
     if (uri.match(`:${key}`)) {
@@ -52,9 +52,11 @@ const commandHeader = (
   credentials
 });
 
-const toObject = headers => {
-  const obj = {};
-  headers.forEach((value, key) => {
+const toObject = (headers: {
+  forEach: (arg: (value: string, key: string) => void) => void;
+}) => {
+  const obj: { [x: string]: string } = {};
+  headers.forEach((value: string, key: string) => {
     obj[key] = value;
   });
   return obj;
@@ -88,7 +90,14 @@ export default class ApiClient {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     logger?: (...args: any) => void;
   }) {
-    const cached = {};
+    const cached: {
+      [x: string]: {
+        body: object;
+        headers: object;
+        status: number;
+        ok: boolean;
+      };
+    } = {};
     this.fetch = ({
       url = '',
       method = 'GET',
@@ -131,10 +140,27 @@ export default class ApiClient {
               );
 
         fetch(_url, config).then(
-          res => {
+          (res: {
+            ok: boolean;
+            json: {
+              (): {
+                then: (arg: (json: object) => void, arg1: () => void) => void;
+              };
+              (): {
+                then: (arg: (json: object) => void, arg1: () => void) => void;
+              };
+              (): {
+                then: (arg: (json: object) => void, arg1: () => void) => void;
+              };
+            };
+            headers: {
+              forEach: (arg: (value: string, key: string) => void) => void;
+            };
+            status: number;
+          }) => {
             if (!res.ok) {
               res.json().then(
-                json => {
+                (json: object) => {
                   reject({
                     body: json,
                     headers: toObject(res.headers),
@@ -153,11 +179,11 @@ export default class ApiClient {
               );
             } else if (method === 'GET') {
               res.json().then(
-                json => {
+                (json: object) => {
                   if (cache) {
                     cached[hashed] = {
-                      body: Object.assign({}, json),
-                      res: Object.assign({}, toObject(res.headers)),
+                      body: { ...json },
+                      headers: { ...toObject(res.headers) },
                       status: res.status,
                       ok: res.ok
                     };
@@ -180,7 +206,7 @@ export default class ApiClient {
               );
             } else {
               res.json().then(
-                json => {
+                (json: object) => {
                   resolve({
                     body: json,
                     headers: toObject(res.headers),
@@ -199,7 +225,7 @@ export default class ApiClient {
               );
             }
           },
-          err => {
+          (err: object) => {
             reject({
               body: {},
               headers: {},

@@ -2,16 +2,18 @@
   "name": "root",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/redux-unfetch"
   ],
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "rollup -c"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
     "@babel/preset-typescript": "^7.6.0",
     "@types/jest": "^24.0.18",
+    "@types/qs": "^6.5.3",
     "@typescript-eslint/eslint-plugin": "^2.3.1",
     "@typescript-eslint/parser": "^2.3.1",
     "babel-jest": "^24.9.0",
@@ -22,6 +24,7 @@
     "lerna": "^3.16.4",
     "prettier": "^1.18.2",
     "rollup": "^1.21.4",
+    "rollup-plugin-typescript2": "^0.24.3",
     "ts-jest": "^24.1.0"
   },
   "dependencies": {

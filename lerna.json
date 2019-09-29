@@ -1,6 +1,6 @@
 {
   "packages": [
-    "packages/*"
+    "packages/redux-unfetch"
   ],
   "version": "1.0.1"
 }

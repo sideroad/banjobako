@@ -9,6 +9,9 @@
     "build": "rollup -c",
     "publish": "yarn test && yarn build && lerna publish"
   },
+  "jest": {
+    "testPathIgnorePatterns": ["node_modules", "dist"]
+  },
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/preset-env": "^7.6.2",

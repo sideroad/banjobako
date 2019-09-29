@@ -11,5 +11,6 @@
   "peerDependencies": {
     "react": "*",
     "redux": "*"
-  }
+  },
+  "gitHead": "0f1e891d05ac231c802d9f31cdfff35d8652bbd8"
 }

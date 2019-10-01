@@ -18,15 +18,10 @@ const ALL_MODULES = []
 export default {
   input: INPUT_FILE,
   external: ALL_MODULES,
-  name: PKG_JSON.name,
   output: {
     file: path.join(OUTPUT_DIR, `index.js`),
     format: 'cjs'
   },
-  amd: {
-    id: PKG_JSON.name
-  },
-  sourcemap: true,
   plugins: [
     resolve(),
     babel({

@@ -37,7 +37,7 @@ const exec = async ({
   headers,
   cache,
   useQuery,
-  logger
+  logger = () => {}
 }: {
   dispatch: Function;
   client: ApiClient;
@@ -47,9 +47,9 @@ const exec = async ({
   start: Function;
   success: Function;
   fail: Function;
-  mode: RequestMode;
-  credentials: RequestCredentials;
-  headers: object;
+  mode: RequestMode | undefined;
+  credentials: RequestCredentials | undefined;
+  headers?: object;
   cache: boolean | undefined;
   useQuery: boolean | undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

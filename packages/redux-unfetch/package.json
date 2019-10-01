@@ -3,6 +3,7 @@
   "version": "1.0.11",
   "description": "isomorphic fetching logic connect and dispatch action",
   "main": "dist/index.js",
+  "module": "index.ts",
   "author": "sideroad",
   "license": "MIT",
   "dependencies": {

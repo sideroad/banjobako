@@ -39,10 +39,11 @@ export default (App, initializeStore) =>
 
     constructor(props) {
       super(props);
+      // eslint-disable-next-line react/prop-types
       this.store = getOrCreateStore(initializeStore, props.initialReduxState);
     }
 
     render() {
-      return <App { ...this.props } store={this.store} />;
+      return <App {...this.props} store={this.store} />;
     }
   };

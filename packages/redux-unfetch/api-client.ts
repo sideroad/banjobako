@@ -19,8 +19,8 @@ export const normalize = (_uri: string, params: { [x: string]: string }) => {
 const queryHeader = (
   headers: object,
   defaultHeaders: object,
-  mode: RequestMode,
-  credentials: RequestCredentials
+  mode: RequestMode | undefined,
+  credentials: RequestCredentials | undefined
 ) => ({
   method: 'GET',
   headers: {
@@ -36,9 +36,9 @@ const commandHeader = (
   values: object,
   headers: object,
   defaultHeaders: object,
-  mode: RequestMode,
-  credentials: RequestCredentials,
-  useQuery: boolean
+  mode: RequestMode | undefined,
+  credentials: RequestCredentials | undefined,
+  useQuery: boolean | undefined
 ) => ({
   method,
   headers: {
@@ -75,8 +75,8 @@ export default class ApiClient {
     method?: 'GET' | 'POST' | 'PATCH' | 'DELETE';
     values?: object;
     headers?: object;
-    mode?: RequestMode;
-    credentials?: RequestCredentials;
+    mode?: RequestMode | undefined;
+    credentials?: RequestCredentials | undefined;
     cache?: boolean;
     useQuery?: boolean;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -101,7 +101,7 @@ export default class ApiClient {
       url = '',
       method = 'GET',
       values = {},
-      headers,
+      headers = {},
       mode,
       credentials,
       cache,

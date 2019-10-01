@@ -1,6 +1,5 @@
 {
   "name": "root",
-  "private": true,
   "workspaces": {
     "packages": [
       "packages/*"
@@ -8,8 +7,9 @@
   },
   "scripts": {
     "test": "jest",
-    "publish": "yarn test && yarn build && lerna publish",
-    "build": "lerna exec -- rollup -c=../../rollup.config.js"
+    "publish": "lerna publish",
+    "build": "lerna exec -- rollup -c=../../rollup.config.js",
+    "prepare": "yarn test && yarn build"
   },
   "jest": {
     "testPathIgnorePatterns": [
@@ -17,6 +17,9 @@
       "dist"
     ]
   },
+  "pre-commit": [
+    "test"
+  ],
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/preset-env": "^7.6.2",

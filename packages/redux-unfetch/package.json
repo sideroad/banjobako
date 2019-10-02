@@ -15,5 +15,9 @@
   },
   "peerDependencies": {
     "redux": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sideroad/banjobako/tree/master/packages/redux-unfetch"
   }
 }

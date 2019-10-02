@@ -3,6 +3,7 @@
   "version": "1.0.13",
   "description": "install vscode extensions by referring extensions.json",
   "main": "dist/index.js",
+  "module": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +16,6 @@
     "recommendation"
   ],
   "author": "sideroad",
-  "license": "MIT"
+  "license": "MIT",
+  "gitHead": "b8094d0288d104a2f6e510a544761ea802145659"
 }

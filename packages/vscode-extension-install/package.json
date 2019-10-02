@@ -1,14 +1,14 @@
 {
-  "name": "vscode-recommendation-installer",
+  "name": "vscode-extension-install",
   "version": "1.0.14",
-  "description": "install vscode extensions by referring extensions.json",
+  "description": "install vscode extensions by referring extensions.json recommendations",
   "main": "dist/index.js",
   "module": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "vscode-recommandation-install": "dist/index.js"
+    "vscode-extension-install": "dist/index.js"
   },
   "keywords": [
     "vscode",

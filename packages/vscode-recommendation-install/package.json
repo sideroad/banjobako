@@ -1,6 +1,6 @@
 {
   "name": "vscode-recommendation-installer",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "install vscode extensions by referring extensions.json",
   "main": "dist/index.js",
   "module": "index.ts",

@@ -1,5 +1,6 @@
 {
   "name": "root",
+  "private": true,
   "workspaces": {
     "packages": [
       "packages/*"
@@ -7,7 +8,7 @@
   },
   "scripts": {
     "test": "jest",
-    "publish": "lerna publish",
+    "pub": "lerna publish",
     "build": "lerna exec -- rollup -c=../../rollup.config.js",
     "prepare": "yarn test && yarn build"
   },

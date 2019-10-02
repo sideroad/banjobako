@@ -1,0 +1,19 @@
+{
+  "name": "vscode-recommendation-installer",
+  "version": "1.0.0",
+  "description": "install vscode extensions by referring extensions.json",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "vscode-recommandation-install": "dist/index.js"
+  },
+  "keywords": [
+    "vscode",
+    "extentions",
+    "recommendation"
+  ],
+  "author": "sideroad",
+  "license": "MIT"
+}

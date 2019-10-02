@@ -15,7 +15,8 @@
     "extentions",
     "recommendation"
   ],
+  "shebang": true,
   "author": "sideroad",
   "license": "MIT",
-  "gitHead": "b8094d0288d104a2f6e510a544761ea802145659"
+  "gitHead": "384e922851d84ca84b412ed0387b58e0236712fc"
 }

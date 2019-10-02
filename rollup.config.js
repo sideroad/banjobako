@@ -8,6 +8,7 @@ const PACKAGE_ROOT_PATH = process.cwd();
 const PKG_JSON = require(path.join(PACKAGE_ROOT_PATH, 'package.json'));
 const INPUT_FILE = path.join(PACKAGE_ROOT_PATH, PKG_JSON.module);
 const OUTPUT_DIR = path.join(PACKAGE_ROOT_PATH, 'dist');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const babelConfig = require('./babel.config');
 
 const ALL_MODULES = []
@@ -15,22 +16,24 @@ const ALL_MODULES = []
   .concat(Object.keys(PKG_JSON.peerDependencies || {}))
   .filter(dependency => dependency);
 
+const plugins = [
+  resolve(),
+  babel({
+    babelrc: false,
+    exclude: 'node_modules/**',
+    ...babelConfig
+  }),
+  typescript({
+    typescript: require('typescript')
+  })
+];
 export default {
   input: INPUT_FILE,
   external: ALL_MODULES,
   output: {
+    banner: PKG_JSON.shebang ? '#!/usr/bin/env node' : '',
     file: path.join(OUTPUT_DIR, `index.js`),
     format: 'cjs'
   },
-  plugins: [
-    resolve(),
-    babel({
-      babelrc: false,
-      exclude: 'node_modules/**',
-      ...babelConfig
-    }),
-    typescript({
-      typescript: require('typescript')
-    })
-  ]
+  plugins: plugins
 };

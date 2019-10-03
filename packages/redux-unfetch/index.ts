@@ -53,7 +53,7 @@ const exec = async ({
   cache: boolean | undefined;
   useQuery: boolean | undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  logger?: (...args: any) => void;
+  logger?: (...args: any[]) => void;
 }) => {
   dispatch(start());
   let res;
@@ -112,7 +112,7 @@ const getExecOptions = ({
   resource: string;
   action: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  logger?: (...args: any) => void;
+  logger?: (...args: any[]) => void;
 }) => ({
   dispatch,
   client,
@@ -138,11 +138,13 @@ const getExecOptions = ({
     values,
     type: `${resource}/${snakeCase(action).toUpperCase()}_START`
   }),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   success: (res: any) => ({
     values,
     ...res,
     type: `${resource}/${snakeCase(action).toUpperCase()}_SUCCESS`
   }),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fail: (res: any) => ({
     values,
     ...res,
@@ -165,7 +167,7 @@ export default class Fetcher {
     dispatch: Function;
     headers?: object;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    logger?: (...args: any) => void;
+    logger?: (...args: any[]) => void;
   }) {
     const client = new ApiClient({
       defaultHeaders: headers,

@@ -87,7 +87,7 @@ export default class ApiClient {
   }: {
     defaultHeaders?: object;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    logger?: (...args: any) => void;
+    logger?: (...args: any[]) => void;
   }) {
     const cached: {
       [x: string]: {

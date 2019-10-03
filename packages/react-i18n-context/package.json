@@ -1,0 +1,30 @@
+{
+  "name": "react-i18n-context",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "index.tsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sideroad/banjobako/tree/master/packages/react-i18n-context"
+  },
+  "keywords": [
+    "react",
+    "i18n",
+    "context"
+  ],
+  "author": "sideroad",
+  "license": "MIT",
+  "dependencies": {
+    "accept-language": "^3.0.18"
+  },
+  "devDependencies": {
+    "react": "^16.10.1"
+  },
+  "peerDependencies": {
+    "react": "^16.10.1"
+  }
+}

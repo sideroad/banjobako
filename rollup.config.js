@@ -16,15 +16,20 @@ const ALL_MODULES = []
   .concat(Object.keys(PKG_JSON.peerDependencies || {}))
   .filter(dependency => dependency);
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const tsconfig = require(path.join(PACKAGE_ROOT_PATH, '../../tsconfig.json'));
 const plugins = [
   resolve(),
   babel({
     babelrc: false,
-    exclude: 'node_modules/**',
+    exclude: ['node_modules/**', 'dist/**', '__tests__/**'],
+    extensions: ['.js', '.jsx', '.tsx'],
     ...babelConfig
   }),
   typescript({
-    typescript: require('typescript')
+    typescript: require('typescript'),
+    tsconfigDefaults: tsconfig,
+    tsconfigOverride: { compilerOptions: { noImplicitAny: false } }
   })
 ];
 export default {

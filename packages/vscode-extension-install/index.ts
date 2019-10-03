@@ -8,8 +8,10 @@ const install = () => {
   which.sync('code');
   if (which.sync('code')) {
     if (existsSync(jsonPath)) {
-      const jsonFile = readFileSync(jsonPath, 'utf-8');
-      const json = JSON.parse(jsonFile);
+      const jsonFile: string = readFileSync(jsonPath, 'utf-8');
+      const json: {
+        recommendations: string[];
+      } = JSON.parse(jsonFile);
       (json.recommendations || []).forEach((lib: string) => {
         console.log(`# Installing vscode extensions... [${lib}]`);
         spawnSync('code', ['--install-extension', lib, '--force']);

@@ -1,5 +1,5 @@
 {
-  "name": "vscode-extension-install",
+  "name": "@sideroad/vscode-extension-install",
   "version": "1.0.27",
   "description": "install vscode extensions by referring extensions.json recommendations",
   "main": "dist/index.js",

@@ -31,8 +31,7 @@ const plugins = [
     tsconfigDefaults: tsconfig,
     tsconfigOverride: Object.assign({}, tsconfig, {
       compilerOptions: { noImplicitAny: false }
-    }),
-    clean: true
+    })
   })
 ];
 export default {

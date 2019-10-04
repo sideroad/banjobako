@@ -17,5 +17,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/sideroad/banjobako/tree/master/packages/with-redux-store"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "with-redux-store",
-  "version": "1.0.20",
+  "version": "1.0.27",
   "description": "",
   "main": "dist/index.js",
   "module": "index.jsx",

@@ -1,5 +1,5 @@
 {
-  "name": "react-simple-i18n-context",
+  "name": "@banjobako/react-i18n",
   "version": "1.0.24",
   "description": "",
   "main": "dist/index.js",
@@ -28,5 +28,5 @@
   "peerDependencies": {
     "react": "^16.10.1"
   },
-  "gitHead": "c97d4ab0559918ea6fb5d75963838b4e316326ba"
+  "gitHead": "c0fc9506b3a8eb42cab01ecba80d13ebc9bf9f5e"
 }

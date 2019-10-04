@@ -19,6 +19,8 @@ test('Render I18n with using locales', () => {
       hello: 'こんにちは'
     }
   };
+  window.__SIMPLE_I18N__ = { resource: locales.en, lang: 'en' };
+
   const i18n = init({
     headers,
     locales

@@ -18,12 +18,12 @@
     "noImplicitAny": true,
     "outDir": "./dist"
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "__tests__"],
   "include": [
     "packages/**/*"
   ],
   "typeRoots":[
     "node_modules/@types",
-    "./types"
+    "types"
   ]
 }

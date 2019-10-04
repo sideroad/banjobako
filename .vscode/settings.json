@@ -8,5 +8,6 @@
       {"language": "typescriptreact", "autoFix": true }
   ],
   "window.zoomLevel": 1.5,
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

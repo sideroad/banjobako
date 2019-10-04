@@ -29,7 +29,10 @@ const plugins = [
   typescript({
     typescript: require('typescript'),
     tsconfigDefaults: tsconfig,
-    tsconfigOverride: { compilerOptions: { noImplicitAny: false } }
+    tsconfigOverride: Object.assign({}, tsconfig, {
+      compilerOptions: { noImplicitAny: false }
+    }),
+    clean: true
   })
 ];
 export default {

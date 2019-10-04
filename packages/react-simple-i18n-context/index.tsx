@@ -14,17 +14,21 @@ declare global {
 interface Resource {
   [id: string]: string;
 }
+
 interface Resources {
   [lang: string]: Resource;
 }
+
 interface Headers {
   [lang: string]: string;
 }
+
 interface I18n {
   t: (key: string) => string;
   resource: Resource;
   lang: string;
 }
+
 const resources: Resources = {};
 
 let isLoaded = false;

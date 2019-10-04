@@ -1,6 +1,6 @@
 {
   "name": "react-simple-i18n-context",
-  "version": "1.0.0",
+  "version": "1.0.21",
   "description": "",
   "main": "dist/index.js",
   "module": "index.tsx",

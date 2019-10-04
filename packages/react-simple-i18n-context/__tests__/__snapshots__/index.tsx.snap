@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render I18n with using locales 1`] = `"Hello"`;
+
+exports[`Render I18n with using locales 2`] = `"Hello"`;
+
+exports[`Render I18n with using locales 3`] = `
+<script
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "window.__i18n={resource: {\\"hello\\":\\"Hello\\"}, lang: \\"en\\"}",
+    }
+  }
+/>
+`;

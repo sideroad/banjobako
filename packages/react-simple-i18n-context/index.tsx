@@ -1,5 +1,6 @@
 import React, { FC, useContext } from 'react';
 import acceptLanguage from 'accept-language';
+import serialize from 'serialize-javascript';
 
 interface Resource {
   [id: string]: string;
@@ -37,7 +38,7 @@ export function init({
   headers: Headers;
   locales?: Resources;
 }): I18n {
-  if (!isServer) {
+  if (!isServer && window.__i18n) {
     const { resource, lang } = window.__i18n;
     return {
       resource,
@@ -62,11 +63,11 @@ export function init({
     };
   }
   throw new Error(
-    'Unexpected condition. req is needed for SSR, otherwise window object should be exists'
+    'Unexpected condition. headers is needed for SSR. In browser case, window.__i18n object should be exists'
   );
 }
 
-interface Props {
+interface I18nProps {
   id: string;
 }
 
@@ -78,9 +79,29 @@ export const Context = React.createContext({
 
 export const { Provider, Consumer } = Context;
 
-const I18n: FC<Props> = (props: Props) => {
+const I18n: FC<I18nProps> = (props: I18nProps) => {
   const i18n: I18n = useContext(Context);
   return <>{i18n.t(props.id)}</>;
+};
+
+interface I18nRenderJSProps {
+  headers: Headers;
+  locales: Resources;
+}
+
+export const I18nRenderJS: FC<I18nRenderJSProps> = (
+  props: I18nRenderJSProps
+) => {
+  const i18n = init(props);
+  return (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `window.__i18n={resource: ${serialize(
+          i18n.resource
+        )}, lang: ${serialize(i18n.lang)}}`
+      }}
+    />
+  );
 };
 
 export default I18n;

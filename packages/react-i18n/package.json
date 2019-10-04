@@ -1,5 +1,5 @@
 {
-  "name": "@banjobako/react-i18n",
+  "name": "@sideroad/react-i18n",
   "version": "1.0.25",
   "description": "",
   "main": "dist/index.js",
@@ -28,5 +28,5 @@
   "peerDependencies": {
     "react": "^16.10.1"
   },
-  "gitHead": "c0fc9506b3a8eb42cab01ecba80d13ebc9bf9f5e"
+  "gitHead": "7e3f1d68449f7632c405e2d00886becd213958cc"
 }

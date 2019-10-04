@@ -18,7 +18,7 @@
   "shebang": true,
   "author": "sideroad",
   "license": "MIT",
-  "gitHead": "c0fc9506b3a8eb42cab01ecba80d13ebc9bf9f5e",
+  "gitHead": "7e3f1d68449f7632c405e2d00886becd213958cc",
   "dependencies": {
     "which": "^1.3.1"
   },

@@ -19,5 +19,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/sideroad/banjobako/tree/master/packages/redux-unfetch"
-  }
+  },
+  "gitHead": "be547985293432871a4940b1b0d15a2e6b07f993"
 }

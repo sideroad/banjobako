@@ -18,7 +18,7 @@ interface I18n {
 }
 declare global {
   interface Window {
-    __i18n: {
+    __SIMPLE_I18n__: {
       resource: Resource;
       lang: string;
     };
@@ -38,8 +38,8 @@ export function init({
   headers: Headers;
   locales?: Resources;
 }): I18n {
-  if (!isServer && window.__i18n) {
-    const { resource, lang } = window.__i18n;
+  if (!isServer && window.__SIMPLE_I18n__) {
+    const { resource, lang } = window.__SIMPLE_I18n__;
     return {
       resource,
       t: (id: string) => resource[id],
@@ -63,7 +63,7 @@ export function init({
     };
   }
   throw new Error(
-    'Unexpected condition. headers is needed for SSR. In browser case, window.__i18n object should be exists'
+    'Unexpected condition. headers is needed for SSR. In browser case, window.__SIMPLE_I18n__ object should be exists'
   );
 }
 
@@ -96,7 +96,7 @@ export const I18nRenderJS: FC<I18nRenderJSProps> = (
   return (
     <script
       dangerouslySetInnerHTML={{
-        __html: `window.__i18n={resource: ${serialize(
+        __html: `window.__SIMPLE_I18n__={resource: ${serialize(
           i18n.resource
         )}, lang: ${serialize(i18n.lang)}}`
       }}

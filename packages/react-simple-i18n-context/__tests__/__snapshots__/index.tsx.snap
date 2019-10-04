@@ -8,7 +8,7 @@ exports[`Render I18n with using locales 3`] = `
 <script
   dangerouslySetInnerHTML={
     Object {
-      "__html": "window.__i18n={resource: {\\"hello\\":\\"Hello\\"}, lang: \\"en\\"}",
+      "__html": "window.__SIMPLE_I18n__={resource: {\\"hello\\":\\"Hello\\"}, lang: \\"en\\"}",
     }
   }
 />

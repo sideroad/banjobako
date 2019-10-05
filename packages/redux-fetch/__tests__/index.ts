@@ -5,10 +5,12 @@ test('dispatch actions', async () => {
     urls: {
       octcat: {
         get: {
-          url: 'https://api.github.com/users/octocat'
+          url: 'https://api.github.com/users/[id]',
+          method: 'GET'
         },
         shouldFailGet: {
-          url: 'https://api.github.com/users/non-exists-user'
+          url: 'https://api.github.com/users/non-exists-user',
+          method: 'GET'
         }
       }
     },
@@ -16,10 +18,10 @@ test('dispatch actions', async () => {
     dispatch: ({ type, values, body, headers, status, ok }) => {
       switch (type) {
         case 'octcat/GET_START':
-          expect(values).toEqual({ _: 1 });
+          expect(values).toEqual({ id: 'octocat' });
           break;
         case 'octcat/GET_SUCCESS':
-          expect(values).toEqual({ _: 1 });
+          expect(values).toEqual({ id: 'octocat' });
           expect(body.company).toBe('GitHub');
           expect(headers.server).toBe('GitHub.com');
           expect(status).toBe(200);
@@ -37,9 +39,9 @@ test('dispatch actions', async () => {
     }
   });
   const res = await fetcher.octcat.get({
-    _: 1
+    id: 'octocat'
   });
-  expect(res.values).toEqual({ _: 1 });
+  expect(res.values).toEqual({ id: 'octocat' });
   expect(res.body.company).toBe('GitHub');
   expect(res.headers.server).toBe('GitHub.com');
   expect(res.status).toBe(200);

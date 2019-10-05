@@ -4,12 +4,12 @@ jest.setTimeout(10000);
 
 test('normalize to stringify parameters', () => {
   expect(
-    normalize('/api/:fruits/seeds', {
+    normalize('/api/[fruits]/seeds', {
       fruits: 'banana'
     })
   ).toBe('/api/banana/seeds');
   expect(
-    normalize('/api/:fruits/seeds/fruits/:fruits', {
+    normalize('/api/[fruits]/seeds/fruits/[fruits]', {
       fruits: 'banana'
     })
   ).toBe('/api/banana/seeds/fruits/banana');
@@ -50,7 +50,7 @@ test('ApiClient Command', async () => {
   expect(posted.ok).toBe(true);
 
   const getPosted = await client.fetch({
-    url: 'https://chaus.herokuapp.com/apis/tsugite/tests/:id',
+    url: 'https://chaus.herokuapp.com/apis/tsugite/tests/[id]',
     method: 'GET',
     values: {
       id: posted.body.id
@@ -62,7 +62,7 @@ test('ApiClient Command', async () => {
   expect(getPosted.ok).toBe(true);
 
   await client.fetch({
-    url: 'https://chaus.herokuapp.com/apis/tsugite/tests/:id',
+    url: 'https://chaus.herokuapp.com/apis/tsugite/tests/[id]',
     method: 'PATCH',
     values: {
       id: posted.body.id,
@@ -71,7 +71,7 @@ test('ApiClient Command', async () => {
   });
 
   const getPatched = await client.fetch({
-    url: 'https://chaus.herokuapp.com/apis/tsugite/tests/:id',
+    url: 'https://chaus.herokuapp.com/apis/tsugite/tests/[id]',
     method: 'GET',
     values: {
       id: posted.body.id
@@ -82,7 +82,7 @@ test('ApiClient Command', async () => {
   expect(getPatched.ok).toBe(true);
 
   await client.fetch({
-    url: 'https://chaus.herokuapp.com/apis/tsugite/tests/:id',
+    url: 'https://chaus.herokuapp.com/apis/tsugite/tests/[id]',
     method: 'DELETE',
     values: {
       id: posted.body.id
@@ -91,7 +91,7 @@ test('ApiClient Command', async () => {
 
   try {
     await client.fetch({
-      url: 'https://chaus.herokuapp.com/apis/tsugite/tests/:id',
+      url: 'https://chaus.herokuapp.com/apis/tsugite/tests/[id]',
       method: 'GET',
       values: {
         id: posted.body.id

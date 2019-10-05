@@ -5,9 +5,9 @@ import fetch from 'isomorphic-unfetch';
 export const normalize = (_uri: string, params: { [x: string]: string }) => {
   let uri = _uri;
   Object.keys(params).forEach(key => {
-    if (uri.match(`:${key}`)) {
+    if (uri.match(`\\[${key}\\]`)) {
       uri = uri.replace(
-        new RegExp(`:${key}`, 'g'),
+        new RegExp(`\\[${key}\\]`, 'g'),
         encodeURIComponent(params[key])
       );
       delete params[key];

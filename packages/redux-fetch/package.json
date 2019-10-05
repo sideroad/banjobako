@@ -1,6 +1,6 @@
 {
   "name": "@sideroad/redux-fetch",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "description": "isomorphic fetching logic connect and dispatch action",
   "main": "dist/index.js",
   "module": "index.ts",

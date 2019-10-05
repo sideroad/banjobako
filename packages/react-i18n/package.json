@@ -1,6 +1,6 @@
 {
   "name": "@sideroad/react-i18n",
-  "version": "1.0.27",
+  "version": "1.0.29",
   "description": "",
   "main": "dist/index.js",
   "module": "index.tsx",

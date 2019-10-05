@@ -1,13 +1,13 @@
 import snakeCase from 'snake-case';
 import ApiClient from './api-client';
 
-interface Urls {
+export interface Urls {
   [x: string]: {
     [x: string]: {
       url: string;
       method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
       cache?: boolean;
-      mode: RequestMode;
+      mode?: RequestMode;
       credentials?: RequestCredentials;
       headers?: object;
       defaults?: object;
@@ -16,7 +16,7 @@ interface Urls {
   };
 }
 
-interface Options {
+export interface Options {
   mode?: RequestMode;
   credentials?: RequestCredentials;
   headers?: object;

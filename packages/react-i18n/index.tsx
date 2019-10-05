@@ -11,19 +11,20 @@ declare global {
   }
 }
 
-interface Resource {
+export interface Resource {
   [id: string]: string;
 }
 
-interface Resources {
+export interface Resources {
   [lang: string]: Resource;
 }
 
-interface Headers {
+export interface Headers {
+  'accept-language': string;
   [lang: string]: string;
 }
 
-interface I18n {
+export interface I18n {
   t: (key: string) => string;
   resource: Resource;
   lang: string;

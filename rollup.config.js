@@ -6,7 +6,7 @@ import path from 'path';
 const PACKAGE_ROOT_PATH = process.cwd();
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PKG_JSON = require(path.join(PACKAGE_ROOT_PATH, 'package.json'));
-const INPUT_FILE = path.join(PACKAGE_ROOT_PATH, PKG_JSON.module);
+const INPUT_FILE = path.join(PACKAGE_ROOT_PATH, PKG_JSON.source);
 const OUTPUT_DIR = path.join(PACKAGE_ROOT_PATH, 'dist');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const babelConfig = require('./babel.config');

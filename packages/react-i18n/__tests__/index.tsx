@@ -50,4 +50,14 @@ test('Render I18n with using locales', () => {
       .create(<I18nRenderJS headers={headers} locales={locales} />)
       .toJSON()
   ).toMatchSnapshot();
+
+  expect(
+    renderer
+      .create(
+        <Provider value={i18n}>
+          <I18n id="non-exists" />
+        </Provider>
+      )
+      .toJSON()
+  ).toMatchSnapshot();
 });

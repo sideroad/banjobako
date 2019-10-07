@@ -33,6 +33,7 @@ export interface I18n {
 const resources: Resources = {};
 
 let isLoaded = false;
+const UNASSIGNED_TEXT = '_UNASSIGNED_';
 
 const isServer: boolean = typeof window === 'undefined' ? true : false;
 export function init({
@@ -51,7 +52,7 @@ export function init({
     const { resource, lang } = window['__SIMPLE_I18N__'];
     return {
       resource,
-      t: (id: string) => resource[id],
+      t: (id: string) => resource[id] || UNASSIGNED_TEXT,
       lang
     };
   } else if (!isLoaded) {
@@ -68,7 +69,7 @@ export function init({
 
     return {
       resource: resource,
-      t: (id: string) => resource[id],
+      t: (id: string) => resource[id] || UNASSIGNED_TEXT,
       lang: lang
     };
   }
@@ -82,7 +83,7 @@ interface I18nProps {
 }
 
 export const Context = React.createContext({
-  t: (key: string) => key,
+  t: (key: string) => key || UNASSIGNED_TEXT,
   resource: {},
   lang: ''
 });

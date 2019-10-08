@@ -69,7 +69,6 @@ export function init({
       acceptLanguage.get(assignedLanguage || headers['accept-language']) || '';
     const resource: Resource =
       resources[lang] || resources[fallbackLanguage] || {};
-    console.log(lang, resources);
     return {
       resource: resource,
       t: (id: string) => resource[id] || UNASSIGNED_TEXT,

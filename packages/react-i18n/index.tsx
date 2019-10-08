@@ -37,13 +37,15 @@ const UNASSIGNED_TEXT = '_UNASSIGNED_';
 
 const isServer: boolean = typeof window === 'undefined' ? true : false;
 export function init({
+  assignedLanguage,
   headers,
   locales = {},
-  defaultLanguage = 'en'
+  fallbackLanguage = 'en'
 }: {
+  assignedLanguage?: string;
   headers?: Headers;
   locales?: Resources;
-  defaultLanguage?: string;
+  fallbackLanguage?: string;
 }): I18n {
   if (!isServer) {
     // XXX: window.__SIMPLE_I18N__ could be passed validation of typescript on editor
@@ -63,10 +65,11 @@ export function init({
     isLoaded = true;
   }
   if (headers) {
-    const lang = acceptLanguage.get(headers['accept-language']) || '';
+    const lang =
+      acceptLanguage.get(assignedLanguage || headers['accept-language']) || '';
     const resource: Resource =
-      resources[lang] || resources[defaultLanguage] || {};
-
+      resources[lang] || resources[fallbackLanguage] || {};
+    console.log(lang, resources);
     return {
       resource: resource,
       t: (id: string) => resource[id] || UNASSIGNED_TEXT,

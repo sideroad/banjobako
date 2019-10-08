@@ -12,9 +12,19 @@ const install = () => {
       const json: {
         recommendations: string[];
       } = JSON.parse(jsonFile);
+
+      const installed = spawnSync('code', ['--list-extensions'])
+        .stdout.toString()
+        .split(/\r?\n/g)
+        .filter(extension => extension);
+
       (json.recommendations || []).forEach((lib: string) => {
-        console.log(`# Installing vscode extensions... [${lib}]`);
-        spawnSync('code', ['--install-extension', lib, '--force']);
+        if (installed.find(ext => lib === ext)) {
+          console.log(`# Extension already exists. skip install. [${lib}]`);
+        } else {
+          console.log(`# Installing vscode extensions... [${lib}]`);
+          spawnSync('code', ['--install-extension', lib, '--force']);
+        }
       });
     }
   } else {

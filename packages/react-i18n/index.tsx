@@ -98,8 +98,10 @@ const I18n: FC<I18nProps> = (props: I18nProps) => {
 };
 
 interface I18nRenderJSProps {
+  assignedLanguage?: string;
   headers?: Headers;
   locales?: Resources;
+  fallbackLanguage?: string;
 }
 
 export const I18nRenderJS: FC<I18nRenderJSProps> = (

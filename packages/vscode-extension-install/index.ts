@@ -13,7 +13,7 @@ const install = () => {
         recommendations: string[];
       } = JSON.parse(jsonFile);
 
-      const installed = spawnSync('code', ['--list-extensions'])
+      const installed = spawnSync('code', ['--list-extensions'], {stdio: 'pipe', shell: true})
         .stdout.toString()
         .split(/\r?\n/g)
         .filter(extension => extension);

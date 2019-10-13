@@ -18,7 +18,7 @@ export interface Urls {
 
 export interface Mocks {
   [x: string]: {
-    [x: string]: () => object;
+    [x: string]: object;
   };
 }
 
@@ -83,7 +83,7 @@ const exec = async ({
   useQuery: boolean | undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   logger?: (...args: any[]) => void;
-  mock?: Function;
+  mock?: object;
 }) => {
   dispatch(start());
   let res;
@@ -100,16 +100,7 @@ const exec = async ({
         useQuery
       });
     } else {
-      res = mock({
-        url,
-        method,
-        values,
-        mode,
-        credentials,
-        headers,
-        cache,
-        useQuery
-      });
+      res = mock;
       await new Promise(resolve => setTimeout(() => resolve(), 200));
 
       res = decorateMockedResponse(res);

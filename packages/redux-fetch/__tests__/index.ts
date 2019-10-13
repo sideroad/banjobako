@@ -79,7 +79,7 @@ test('with mock', async () => {
     },
     mocks: {
       octocat: {
-        get: () => ({
+        get: {
           ok: true,
           status: 200,
           headers: {
@@ -89,8 +89,8 @@ test('with mock', async () => {
             login: 'octocat',
             company: 'GitHub'
           }
-        }),
-        shouldFailGet: () => ({
+        },
+        shouldFailGet: {
           ok: false,
           status: 404,
           body: {
@@ -99,7 +99,7 @@ test('with mock', async () => {
           headers: {
             'x-powered-by': 'Express'
           }
-        })
+        }
       }
     },
     logger: () => {},

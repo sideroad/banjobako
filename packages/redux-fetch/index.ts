@@ -16,12 +16,40 @@ export interface Urls {
   };
 }
 
+export interface Mocks {
+  [x: string]: {
+    [x: string]: () => object;
+  };
+}
+
 export interface Options {
   mode?: RequestMode;
   credentials?: RequestCredentials;
   headers?: object;
   useQuery?: boolean;
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const decorateMockedResponse = (res: any) => {
+  if (res.body === undefined) {
+    res = {
+      status: 200,
+      ok: true,
+      body: { ...res },
+      headers: {}
+    };
+  }
+  if (res.status === undefined) {
+    res.status = 200;
+  }
+  if (res.ok === undefined) {
+    res.ok = !/^(4|5)/.test(res.status) ? true : false;
+  }
+  if (res.headers === undefined) {
+    res.headers = {};
+  }
+  return res;
+};
 
 const exec = async ({
   dispatch,
@@ -37,7 +65,8 @@ const exec = async ({
   headers,
   cache,
   useQuery,
-  logger = () => {}
+  logger = () => {},
+  mock
 }: {
   dispatch: Function;
   client: ApiClient;
@@ -54,20 +83,40 @@ const exec = async ({
   useQuery: boolean | undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   logger?: (...args: any[]) => void;
+  mock?: Function;
 }) => {
   dispatch(start());
   let res;
   try {
-    res = await client.fetch({
-      url,
-      method,
-      values,
-      mode,
-      credentials,
-      headers,
-      cache,
-      useQuery
-    });
+    if (!mock) {
+      res = await client.fetch({
+        url,
+        method,
+        values,
+        mode,
+        credentials,
+        headers,
+        cache,
+        useQuery
+      });
+    } else {
+      res = mock({
+        url,
+        method,
+        values,
+        mode,
+        credentials,
+        headers,
+        cache,
+        useQuery
+      });
+      await new Promise(resolve => setTimeout(() => resolve(), 200));
+
+      res = decorateMockedResponse(res);
+      if (res.ok === false || /^(4|5)/.test(res.status)) {
+        throw res;
+      }
+    }
     dispatch(
       success({
         values,
@@ -102,7 +151,8 @@ const getExecOptions = ({
   client,
   resource,
   action,
-  logger
+  logger,
+  mocks
 }: {
   options: Options;
   dispatch: Function;
@@ -113,6 +163,7 @@ const getExecOptions = ({
   action: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   logger?: (...args: any[]) => void;
+  mocks?: Mocks;
 }) => ({
   dispatch,
   client,
@@ -149,7 +200,8 @@ const getExecOptions = ({
     values,
     ...res,
     type: `${resource}/${snakeCase(action).toUpperCase()}_FAIL`
-  })
+  }),
+  mock: mocks ? mocks[resource][action] : undefined
 });
 
 export default class Fetcher {
@@ -161,13 +213,15 @@ export default class Fetcher {
     headers = {},
     logger = (...args) => {
       console.log(...args);
-    }
+    },
+    mocks
   }: {
     urls: Urls;
     dispatch: Function;
     headers?: object;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     logger?: (...args: any[]) => void;
+    mocks?: Mocks;
   }) {
     const client = new ApiClient({
       defaultHeaders: headers,
@@ -193,7 +247,8 @@ export default class Fetcher {
               client,
               resource,
               action,
-              logger
+              logger,
+              mocks
             })
           );
         };

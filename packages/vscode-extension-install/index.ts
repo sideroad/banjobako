@@ -5,15 +5,25 @@ import which from 'which';
 
 const install = () => {
   const jsonPath = path.join(process.cwd(), '.vscode/extensions.json');
-  which.sync('code');
-  if (which.sync('code')) {
+  let codeExists = false;
+  try {
+    codeExists = which.sync('code') ? true : false;
+  } catch (e) {
+    console.log(
+      '# vscode command line (code) does not found. Skip to install vscode extensions'
+    );
+  }
+  if (codeExists) {
     if (existsSync(jsonPath)) {
       const jsonFile: string = readFileSync(jsonPath, 'utf-8');
       const json: {
         recommendations: string[];
       } = JSON.parse(jsonFile);
 
-      const installed = spawnSync('code', ['--list-extensions'], {stdio: 'pipe', shell: true})
+      const installed = spawnSync('code', ['--list-extensions'], {
+        stdio: 'pipe',
+        shell: true
+      })
         .stdout.toString()
         .split(/\r?\n/g)
         .filter(extension => extension);
@@ -27,10 +37,6 @@ const install = () => {
         }
       });
     }
-  } else {
-    console.log(
-      '# vscode command line (code) does not found. Skip to install vscode extensions'
-    );
   }
 };
 

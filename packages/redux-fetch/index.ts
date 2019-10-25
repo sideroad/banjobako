@@ -205,6 +205,7 @@ export default class Fetcher {
     logger = (...args) => {
       console.log(...args);
     },
+    before = ({ values, headers }) => ({ values, headers }),
     mocks
   }: {
     urls: Urls;
@@ -212,6 +213,7 @@ export default class Fetcher {
     headers?: object;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     logger?: (...args: any[]) => void;
+    before?: ({ values, headers }: { values: any; headers: any }) => void;
     mocks?: Mocks;
   }) {
     const client = new ApiClient({
@@ -228,6 +230,7 @@ export default class Fetcher {
             urls[resource][action].defaults || {},
             _values
           );
+          before({ values, headers: options.headers || {} });
           this[resource][action].options = options;
           return exec(
             getExecOptions({

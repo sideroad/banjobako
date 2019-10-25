@@ -2,6 +2,9 @@ import Fetcher from '../index';
 
 test('dispatch actions', async () => {
   const fetcher = new Fetcher({
+    before: ({ values, headers }) => {
+      values['injected'] = 'injected';
+    },
     urls: {
       octocat: {
         get: {
@@ -19,17 +22,23 @@ test('dispatch actions', async () => {
     dispatch: (action: any) => {
       switch (action.type) {
         case 'octocat/GET_START':
-          expect(action.values).toEqual({ id: 'octocat' });
+          expect(action.values).toEqual({
+            id: 'octocat',
+            injected: 'injected'
+          });
           break;
         case 'octocat/GET_SUCCESS':
-          expect(action.values).toEqual({ id: 'octocat' });
+          expect(action.values).toEqual({
+            id: 'octocat',
+            injected: 'injected'
+          });
           expect(action.body.company).toBe('GitHub');
           expect(action.headers['x-powered-by']).toBe('Express');
           expect(action.status).toBe(200);
           expect(action.ok).toBe(true);
           break;
         case 'octocat/SHOULD_FAIL_GET_FAIL':
-          expect(action.values).toEqual({ _: 2 });
+          expect(action.values).toEqual({ _: 2, injected: 'injected' });
           expect(action.body.id).toBe(
             'Specified ID (non-exists-user) does not exists in user'
           );
@@ -44,7 +53,7 @@ test('dispatch actions', async () => {
   const res = await fetcher.octocat.get({
     id: 'octocat'
   });
-  expect(res.values).toEqual({ id: 'octocat' });
+  expect(res.values).toEqual({ id: 'octocat', injected: 'injected' });
   expect(res.body.company).toBe('GitHub');
   expect(res.headers['x-powered-by']).toBe('Express');
   expect(res.status).toBe(200);
@@ -54,7 +63,7 @@ test('dispatch actions', async () => {
       _: 2
     });
   } catch (res) {
-    expect(res.values).toEqual({ _: 2 });
+    expect(res.values).toEqual({ _: 2, injected: 'injected' });
     expect(res.body.id).toBe(
       'Specified ID (non-exists-user) does not exists in user'
     );

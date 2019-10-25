@@ -66,6 +66,7 @@ const exec = async ({
   cache,
   useQuery,
   logger = () => {},
+  before,
   mock
 }: {
   dispatch: Function;
@@ -83,8 +84,11 @@ const exec = async ({
   useQuery: boolean | undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   logger?: (...args: any[]) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  before: ({ values, headers }: { values: any; headers: any }) => void;
   mock?: object;
 }) => {
+  before({ values, headers });
   dispatch(start());
   let res;
   try {
@@ -143,7 +147,8 @@ const getExecOptions = ({
   resource,
   action,
   logger,
-  mocks
+  mocks,
+  before
 }: {
   options: Options;
   dispatch: Function;
@@ -155,6 +160,8 @@ const getExecOptions = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   logger?: (...args: any[]) => void;
   mocks?: Mocks;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  before: ({ values, headers }: { values: any; headers: any }) => void;
 }) => ({
   dispatch,
   client,
@@ -170,12 +177,13 @@ const getExecOptions = ({
   headers:
     options.headers !== undefined
       ? options.headers
-      : urls[resource][action].headers,
+      : urls[resource][action].headers || {},
   useQuery:
     options.useQuery !== undefined
       ? options.useQuery
       : urls[resource][action].useQuery,
   values,
+  before,
   start: () => ({
     values,
     type: `${resource}/${snakeCase(action).toUpperCase()}_START`
@@ -213,6 +221,7 @@ export default class Fetcher {
     headers?: object;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     logger?: (...args: any[]) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     before?: ({ values, headers }: { values: any; headers: any }) => void;
     mocks?: Mocks;
   }) {
@@ -230,7 +239,6 @@ export default class Fetcher {
             urls[resource][action].defaults || {},
             _values
           );
-          before({ values, headers: options.headers || {} });
           this[resource][action].options = options;
           return exec(
             getExecOptions({
@@ -242,7 +250,8 @@ export default class Fetcher {
               resource,
               action,
               logger,
-              mocks
+              mocks,
+              before
             })
           );
         };

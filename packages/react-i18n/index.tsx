@@ -54,7 +54,14 @@ export function init({
     const { resource, lang } = window['__SIMPLE_I18N__'];
     return {
       resource,
-      t: (id: string) => resource[id] || UNASSIGNED_TEXT,
+      t: (id: string) => {
+        if (resource[id]) {
+          return resource[id];
+        } else {
+          console.warn(`local text for [${id}] is not assigned.`);
+          return UNASSIGNED_TEXT;
+        }
+      },
       lang
     };
   } else if (!isLoaded) {
@@ -71,7 +78,14 @@ export function init({
       resources[lang] || resources[fallbackLanguage] || {};
     return {
       resource: resource,
-      t: (id: string) => resource[id] || UNASSIGNED_TEXT,
+      t: (id: string) => {
+        if (resource[id]) {
+          return resource[id];
+        } else {
+          console.warn(`local text for [${id}] is not assigned.`);
+          return UNASSIGNED_TEXT;
+        }
+      },
       lang: lang
     };
   }

@@ -35,7 +35,7 @@ const decorateMockedResponse = (res: any) => {
     res = {
       status: 200,
       ok: true,
-      body: { ...res },
+      body: Object.assign({}, res),
       headers: {}
     };
   }
@@ -83,7 +83,7 @@ const exec = async ({
   cache: boolean | undefined;
   useQuery: boolean | undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  logger?: (...args: any[]) => void;
+  logger?: (args: any) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   before: ({ values, headers }: { values: any; headers: any }) => void;
   mock?: object;
@@ -112,29 +112,13 @@ const exec = async ({
         throw res;
       }
     }
-    dispatch(
-      success({
-        values,
-        ...res
-      })
-    );
+    dispatch(success(Object.assign({}, { values }, res)));
 
-    return Promise.resolve({
-      values,
-      ...res
-    });
+    return Promise.resolve(Object.assign({}, { values }, res));
   } catch (res) {
     logger(res);
-    dispatch(
-      fail({
-        values,
-        ...res
-      })
-    );
-    return Promise.reject({
-      values,
-      ...res
-    });
+    dispatch(fail(Object.assign({}, { values }, res)));
+    return Promise.reject(Object.assign({}, { values }, res));
   }
 };
 
@@ -158,7 +142,7 @@ const getExecOptions = ({
   resource: string;
   action: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  logger?: (...args: any[]) => void;
+  logger?: (args: any) => void;
   mocks?: Mocks;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   before: ({ values, headers }: { values: any; headers: any }) => void;
@@ -189,17 +173,15 @@ const getExecOptions = ({
     type: `${resource}/${snakeCase(action).toUpperCase()}_START`
   }),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  success: (res: any) => ({
-    values,
-    ...res,
-    type: `${resource}/${snakeCase(action).toUpperCase()}_SUCCESS`
-  }),
+  success: (res: any) =>
+    Object.assign({}, { values }, res, {
+      type: `${resource}/${snakeCase(action).toUpperCase()}_SUCCESS`
+    }),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fail: (res: any) => ({
-    values,
-    ...res,
-    type: `${resource}/${snakeCase(action).toUpperCase()}_FAIL`
-  }),
+  fail: (res: any) =>
+    Object.assign({}, { values }, res, {
+      type: `${resource}/${snakeCase(action).toUpperCase()}_FAIL`
+    }),
   mock: mocks ? mocks[resource][action] : undefined
 });
 
@@ -210,8 +192,8 @@ export default class Fetcher {
     urls,
     dispatch,
     headers = {},
-    logger = (...args) => {
-      console.log(...args);
+    logger = args => {
+      console.log(args);
     },
     before = ({ values, headers }) => ({ values, headers }),
     mocks
@@ -220,7 +202,7 @@ export default class Fetcher {
     dispatch: Function;
     headers?: object;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    logger?: (...args: any[]) => void;
+    logger?: (args: any) => void;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     before?: ({ values, headers }: { values: any; headers: any }) => void;
     mocks?: Mocks;

@@ -23,10 +23,7 @@ const queryHeader = (
   credentials: RequestCredentials | undefined
 ) => ({
   method: 'GET',
-  headers: {
-    ...defaultHeaders,
-    ...headers
-  },
+  headers: Object.assign({}, defaultHeaders, headers),
   mode,
   credentials
 });
@@ -41,11 +38,13 @@ const commandHeader = (
   useQuery: boolean | undefined
 ) => ({
   method,
-  headers: {
-    'Content-Type': 'application/json',
-    ...defaultHeaders,
-    ...headers
-  },
+  headers: Object.assign(
+    {
+      'Content-Type': 'application/json'
+    },
+    defaultHeaders,
+    headers
+  ),
   body: !useQuery ? JSON.stringify(values) : '',
   mode,
   credentials
@@ -83,11 +82,11 @@ export default class ApiClient {
   }) => Promise<any>;
   constructor({
     defaultHeaders = {},
-    logger = (...args) => console.log(...args)
+    logger = args => console.log(args)
   }: {
     defaultHeaders?: object;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    logger?: (...args: any[]) => void;
+    logger?: (args: any) => void;
   }) {
     const cached: {
       [x: string]: {
@@ -111,7 +110,7 @@ export default class ApiClient {
         throw new Error('URL does not specified');
       }
 
-      const _values = { ...values };
+      const _values = Object.assign({}, values);
       const _url =
         normalize(url, _values) +
         (useQuery || method === 'GET' ? `?${qs.stringify(_values)}` : '');
@@ -119,12 +118,12 @@ export default class ApiClient {
       // return from cache
       const hashed = hash(_url);
       if (cache && method === 'GET' && cached[hashed]) {
-        logger('## return from cache ', _url, method, _values);
+        logger(`## return from cache ${_url} ${method}`);
         return Promise.resolve(cached[hashed]);
       }
 
       return new Promise((resolve, reject) => {
-        logger('## fetch ', _url, method, _values);
+        logger(`## fetch ${_url} ${method}`);
         const config: RequestInit =
           method === 'GET'
             ? queryHeader(headers, defaultHeaders, mode, credentials)
@@ -181,8 +180,8 @@ export default class ApiClient {
                 (json: object) => {
                   if (cache) {
                     cached[hashed] = {
-                      body: { ...json },
-                      headers: { ...toObject(res.headers) },
+                      body: Object.assign({}, json),
+                      headers: Object.assign({}, toObject(res.headers)),
                       status: res.status,
                       ok: res.ok
                     };

@@ -31,10 +31,9 @@ export default (App, initializeStore) =>
         appProps = await App.getInitialProps(appContext);
       }
 
-      return {
-        ...appProps,
+      return Object.assign({}, appProps, {
         initialReduxState: store.getState()
-      };
+      });
     }
 
     constructor(props) {

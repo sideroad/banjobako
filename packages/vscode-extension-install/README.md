@@ -31,3 +31,5 @@ package.json
 }
 ```
 
+# LICENSE
+MIT

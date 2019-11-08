@@ -1,0 +1,4 @@
+# banjobako
+
+## LICENSE
+MIT

@@ -24,7 +24,7 @@ test('ApiClient Query', async () => {
   const res = await client.fetch({
     url: 'https://api.github.com/users/octocat'
   });
-  expect(res.body.company).toBe('GitHub');
+  expect(res.body.company).toBe('@github');
 });
 
 test('ApiClient Command', async () => {

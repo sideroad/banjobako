@@ -1,5 +1,4 @@
 import React, { FC, useContext } from 'react';
-import acceptLanguage from 'accept-language';
 import serialize from 'serialize-javascript';
 
 declare global {
@@ -19,11 +18,6 @@ export interface Resources {
   [lang: string]: Resource;
 }
 
-export interface Headers {
-  'accept-language': string;
-  [lang: string]: string;
-}
-
 export interface I18n {
   t: (key: string) => string;
   resource: Resource;
@@ -36,16 +30,13 @@ let isLoaded = false;
 const UNASSIGNED_TEXT = '_UNASSIGNED_';
 
 const isServer: boolean = typeof window === 'undefined' ? true : false;
+
 export function init({
-  assignedLanguage,
-  headers,
-  locales = {},
-  fallbackLanguage = 'en'
+  lang,
+  locales = {}
 }: {
-  assignedLanguage?: string;
-  headers?: Headers;
+  lang: string;
   locales?: Resources;
-  fallbackLanguage?: string;
 }): I18n {
   if (!isServer) {
     // XXX: window.__SIMPLE_I18N__ could be passed validation of typescript on editor
@@ -68,30 +59,21 @@ export function init({
     Object.keys(locales).forEach(lang => {
       resources[lang] = locales[lang];
     });
-    acceptLanguage.languages(Object.keys(locales));
     isLoaded = true;
   }
-  if (headers) {
-    const lang =
-      acceptLanguage.get(assignedLanguage || headers['accept-language']) || '';
-    const resource: Resource =
-      resources[lang] || resources[fallbackLanguage] || {};
-    return {
-      resource: resource,
-      t: (id: string) => {
-        if (resource[id]) {
-          return resource[id];
-        } else {
-          console.warn(`local text for [${id}] is not assigned.`);
-          return UNASSIGNED_TEXT;
-        }
-      },
-      lang: lang
-    };
-  }
-  throw new Error(
-    'Unexpected condition. headers is needed for SSR. In browser case, window.__SIMPLE_I18N__ object should be exists'
-  );
+  const resource: Resource = resources[lang] || {};
+  return {
+    resource,
+    t: (id: string) => {
+      if (resource[id]) {
+        return resource[id];
+      } else {
+        console.warn(`local text for [${id}] is not assigned.`);
+        return UNASSIGNED_TEXT;
+      }
+    },
+    lang
+  };
 }
 
 interface I18nProps {
@@ -112,10 +94,8 @@ const I18n: FC<I18nProps> = (props: I18nProps) => {
 };
 
 interface I18nRenderJSProps {
-  assignedLanguage?: string;
-  headers?: Headers;
+  lang: string;
   locales?: Resources;
-  fallbackLanguage?: string;
 }
 
 export const I18nRenderJS: FC<I18nRenderJSProps> = (

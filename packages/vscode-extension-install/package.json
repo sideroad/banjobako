@@ -1,6 +1,6 @@
 {
   "name": "@sideroad/vscode-extension-install",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "install vscode extensions by referring extensions.json recommendations",
   "main": "dist/index.js",
   "source": "index.ts",

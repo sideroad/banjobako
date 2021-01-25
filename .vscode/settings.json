@@ -7,7 +7,7 @@
       {"language": "typescript", "autoFix": true },
       {"language": "typescriptreact", "autoFix": true }
   ],
-  "window.zoomLevel": 1.5,
+  "window.zoomLevel": 2,
   "editor.tabSize": 2,
   "typescript.tsdk": "node_modules/typescript/lib",
   "editor.codeActionsOnSave": {
